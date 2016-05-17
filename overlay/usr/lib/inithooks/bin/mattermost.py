@@ -84,13 +84,16 @@ def main():
             "Mattermost Admin Password", "Enter new password for the Mattermost administrator's  account.")
 
 
-    #create_user = "/opt/mattermost/bin/platform -create_user -team_name=\'%s\' -email=\'%s\' -password=\'%s\' -username=\'%s\'" % (teamname, email, password, username)
-    #args = shlex.split(create_user)
-    #p = subprocess.Popen(args)
-    #role = "/opt/mattermost/bin/platform -assign_role -email=\'%s\' role='system_admin'" % (email)
-    #args = shlex.split(role)
-    #p = subprocess.Popen(args)
-    bashcommand = "./mattermost_user.sh %s %s %s %s" % (username, password, email, teamname)
+
+
+    """if not teamname:
+        d = Dialog('TurnKey Linux - First boot configuration')
+        teamname = d.get_input(
+            "Initial team name",
+            "Enter a name for the first Mattermost team","Initial_Team"
+        )"""
+
+    bashcommand = "./mattermost_user.sh %s %s %s" % (username, password, email)
     pieces = shlex.split(bashcommand)
     #subprocess.Popen(pieces)
     subprocess.call(pieces)

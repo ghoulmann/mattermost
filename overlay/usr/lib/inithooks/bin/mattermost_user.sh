@@ -14,7 +14,6 @@ teamname="$4"
 
 function create ()
 {
-
 	cd $platform && ./platform -create_user -email="$email" -password="$password" -username="$username"
 }
 function assign ()

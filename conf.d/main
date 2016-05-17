@@ -9,6 +9,7 @@ INSTALL_DIR=/opt/mattermost
 CONF=$INSTALL_DIR/config/config.json
 
 sed -i 's/#listen_addresses/listen_addresses/' "/etc/postgresql/9.4/main/postgresql.conf"
+update-rc.d postgresql defaults
 service postgresql start
 
 # create db
@@ -27,6 +28,7 @@ MM_SERVER="postgres://${USER}:${DB_PASS}@127.0.0.1:5432/mattermost?sslmode=disab
 sed -i "/DriverName/ s|mysql|postgres|" $CONF
 sed -i "/DataSource/ s|mmuser.*|$MM_SERVER\",|" $CONF
 sed -i "/ListenAddress/ s| \":| \"127.0.0.1:|" $CONF
+update-rc.d mattermost defaults
 service nginx start
 service php-fastcgi start
 service mattermost start
