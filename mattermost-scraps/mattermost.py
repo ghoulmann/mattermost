@@ -16,7 +16,7 @@ import getopt
 #import hashlib
 
 #from dialog_wrapper
-import Dialog
+#import Dialog
 #from pgsqlconf import PostgreSQL
 from subprocess import call
 import subprocess
@@ -52,30 +52,17 @@ def main():
             teamname = val
 
     if not username:
-        d=Dialog('Turnkey Linux - First boot configuration')
-        username = d.get_input(
-            "Mattermost Admin User Name",
-            "Enter a username for the Mattermost administrator.", "admin")
+        username = raw_input("Enter a username for the Mattermost administrator: ")
+
 
 
     if not email:
-        if 'd' not in locals():
-            d = Dialog('TurnKey Linux - First boot configuration')
-
-        email = d.get_email(
-            "Mattermost Administrator's Email",
-            "Enter email address for the Mattermost 'admin' user.",
-            "admin@example.com")
-
+        email = raw_input("Enter email address for the Mattermost 'admin' user: ")
     if not teamname:
-        d = Dialog('TurnKey Linux - First boot configuration')
-        teamname = d.get_input("Initial team name", "Enter a name for the first Mattermost team","Initial_Team"
-    )
+        teamname = raw_input("Enter a name for the first Mattermost team: ")
 
     if not password:
-        d = Dialog('TurnKey Linux - First boot configuration')
-        password = d.get_password(
-            "Mattermost Admin Password", "Enter new password for the Mattermost administrator's  account.")
+        password = raw_input("Enter new password for the Mattermost administrator's  account: ")
 
 
     #create_user = "/opt/mattermost/bin/platform -create_user -team_name=\'%s\' -email=\'%s\' -password=\'%s\' -username=\'%s\'" % (teamname, email, password, username)
@@ -84,14 +71,16 @@ def main():
     #role = "/opt/mattermost/bin/platform -assign_role -email=\'%s\' role='system_admin'" % (email)
     #args = shlex.split(role)
     #p = subprocess.Popen(args)
-    bashcommand = "./mattermost_user.sh %s %s %s %s" % (username, password, email, teamname)
+    bashcommand = "sh ./mattermost_user.sh %s %s %s %s" % (username, password, email, teamname)
+    print bashcommand
     pieces = shlex.split(bashcommand)
-    #subprocess.Popen(pieces)
-    subprocess.call(pieces)
+    print pieces
+    p = subprocess.call(pieces)
+    print p
+    
 
 
-
-    inithooks_cache.write('APP_EMAIL', email)
+    #inithooks_cache.write('APP_EMAIL', email)
 
 
 
